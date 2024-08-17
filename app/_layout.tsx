@@ -1,37 +1,35 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { StyleSheet, Text, View } from 'react-native'
+import { Slot, SplashScreen, Stack } from 'expo-router'
+import { Link } from 'expo-router'
+import { useFonts } from 'expo-font'
+import { useEffect } from 'react'
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+SplashScreen.preventAutoHideAsync()
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+const RootLayout = () => {
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    const [fontsLoaded, error] = useFonts({
+        'Inter-Thin': require('../assets/fonts/Inter_28pt-Thin.ttf'),
+        'Inter-SemiBold': require('../assets/fonts/Inter_28pt-SemiBold.ttf'),
+        'Inter-Regular': require('../assets/fonts/Inter_28pt-Regular.ttf'),
+        'Inter-Medium': require('../assets/fonts/Inter_28pt-Medium.ttf'),
+        'Inter-Light': require('../assets/fonts/Inter_28pt-Light.ttf'),
+        'Inter-ExtraLight': require('../assets/fonts/Inter_28pt-ExtraLight.ttf'),
+    })
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    useEffect(() => {
+        if(error) throw error;
 
-  if (!loaded) {
-    return null;
-  }
+        if(fontsLoaded) SplashScreen.hideAsync()
+    }, [fontsLoaded, error])
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
-  );
+    if(!fontsLoaded && !error) return null
+
+    return (
+        <Stack>
+            <Stack.Screen name='index' options={{ headerShown: false}} />
+        </Stack>
+    )
 }
+
+export default RootLayout

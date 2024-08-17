@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const TabLayout = () => {
+const Search = () => {
   return (
     <View>
-      <Text>TabLayout</Text>
+      <Text>Search</Text>
     </View>
   )
 }
 
-export default TabLayout
+export default Search
