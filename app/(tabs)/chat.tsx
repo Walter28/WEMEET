@@ -1,9 +1,14 @@
-import React from 'react'
+import { Text, View } from 'react-native'
+import React, { Component } from 'react'
 
-function Chat() {
-  return (
-    <div>Chat</div>
-  )
+export class Chat extends Component {
+  render() {
+    return (
+      <View>
+        <Text>Chat</Text>
+      </View>
+    )
+  }
 }
 
 export default Chat
