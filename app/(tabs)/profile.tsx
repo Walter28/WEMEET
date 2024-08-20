@@ -32,7 +32,7 @@ const Profile = () => {
                     onPress={() => router.back()}
                 />
 
-                {/* <Text className='font-isemibold text-[#222B45] font-bold text-lg'> Docteurs </Text> */}
+                <Text className='font-isemibold text-[#222B45] font-bold text-lg'> Profile </Text>
 
                 <IconButton
                     icon="logout"
