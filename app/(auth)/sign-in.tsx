@@ -4,11 +4,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Alert, Text } from "react-native";
 import { Link, router } from "expo-router";
 import Button from "@/components/CustomBustom";
-import { signIn } from "@/lib/appwrite";
+import { getCurrentUser, signIn } from "@/lib/appwrite";
+import { useGlobalcontext } from "@/context/GlobalProvider";
 
 const SignIn = () => {
 
  const [isSubmitting, setIsSubmitting] = useState(false)
+
+ const {setUser, setIsLoggedIn} = useGlobalcontext()
 
  const [form, setForm] = useState({
     email:'',
@@ -28,9 +31,12 @@ const SignIn = () => {
 
     try {
         await signIn(form.email, form.pwd)
+        //set it to the global state : using context ```this will remember if the user is logged in then redirect him to the home page
+        const result = await getCurrentUser()
+        setUser(result)
+        setIsLoggedIn(true)
 
-        //set it to the global state : using context ```this will remeber if the user is logged in then redirect him to the home page
-
+        Alert.alert("Success", "User signed in successfully")
         router.replace('/home')
     } catch (error) {
         Alert.alert('Error', error.message)

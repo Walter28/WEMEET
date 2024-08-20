@@ -6,6 +6,7 @@ import { Link, router } from "expo-router";
 import Button from "@/components/CustomBustom";
 
 import { createPatient } from "@/lib/appwrite"
+import { useGlobalcontext } from "@/context/GlobalProvider";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -24,6 +25,8 @@ const SignUp = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const {setUser, setIsLoggedIn} = useGlobalcontext()
+
   const submit = async () => {
 
     if(!form.email || !form.nom || !form.postnom || !form.pwd1 || !form.pwd2) {
@@ -34,8 +37,8 @@ const SignUp = () => {
 
     try {
         const result = await createPatient(form.nom, form.postnom, form.email, form.role, form.pwd1, null)
-
-        //set it to the global state : using context
+        setUser(result)
+        setIsLoggedIn(true)
 
         router.replace('/home')
     } catch(error) {
